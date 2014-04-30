@@ -68,7 +68,7 @@ keyboard
 
 
 % sort combinations
-comIDs_sorted = sort(comMatrix,2);
+comIDs_sorted = sortrows(comMatrix,2);
 comIDs_sorted = flipud(comIDs_sorted);
 
 % save variables
