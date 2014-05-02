@@ -8,9 +8,11 @@ global full_range
 % set parameters
 networkID = '25Node-network';
 numNodes = 25;
+numFacilities = 1;
 numRoutes = 2;       % number of candidate routes
-numStations = 1;     % number of stations to locate
-numPads = 1;         % number of pads(routes) to locate
+
+numStations = 0;     % number of stations to locate
+numPads = numFacilities - numStations;         % number of pads(routes) to locate
 full_range = 5;      % set full capacity vehicle range (in mile)
 c_station = 2;       % cost for charging station
 c_pad = 5;           % cost for charging pad
@@ -43,7 +45,7 @@ topFlowIDs = sortedFlows(1:numRoutes, 1);   % retrive candidate route/flow IDs
 % retrieve top k flow info: nodes + links
 % map keys: flowIDs
 % map structure TOP_FLOWS: flowID, origin, destination, cost, nodes, links
-%topFlowIDs = [1;2];  % for testing
+% topFlowIDs = [1;2;4];  % for testing
 [TOP_FLOWS] = retriveFlows(topFlowIDs, shortest_paths_matrix, linkIDMatrix);
 
 % pre-generate b_qh, a_hp
@@ -56,7 +58,7 @@ topFlowIDs = sortedFlows(1:numRoutes, 1);   % retrive candidate route/flow IDs
 size(shortest_paths_matrix,1);
 flowIDs = [1:size(shortest_paths_matrix,1)];
 [ALL_FLOWS] = retriveFlows(flowIDs, shortest_paths_matrix, linkIDMatrix);
-keyboard
+
 % filter out ineligible combinatinos
 [b_qh, a_hp] = filterCombinations(b_qh, a_hp, ALL_FLOWS, TOP_FLOWS, numNodes, numRoutes, LINK);
 
@@ -65,7 +67,6 @@ keyboard
 % map structure: combinationID, refuled total flow, refueled flow ids
 % comMatrix, each row: [combinationID, cost, totalRefueledFlow]
 [COMBINATION, comMatrix] = generateCombinations(b_qh, a_hp, flows, numNodes, TOP_FLOWS);
-
 
 % sort combinations
 comIDs_sorted = sortrows(comMatrix,2);
