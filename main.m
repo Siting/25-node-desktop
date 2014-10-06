@@ -8,8 +8,8 @@ global full_range
 % set parameters
 networkID = '25Node-network';
 numNodes = 25;
-numFacilities = 1;
-numRoutes = 2;       % number of candidate routes
+numFacilities = 2;
+numRoutes = 3;       % number of candidate routes
 
 numStations = 0;     % number of stations to locate
 numPads = numFacilities - numStations;         % number of pads(routes) to locate
